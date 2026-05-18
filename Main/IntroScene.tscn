@@ -1,0 +1,1226 @@
+[gd_scene format=3 uid="uid://clk8f1o6f4qqt"]
+
+[ext_resource type="Script" uid="uid://bfqjvyfrr1ehv" path="res://scripts/Intro/IntroSceneController.cs" id="1_intro"]
+[ext_resource type="Script" uid="uid://do4fi5ssgsesu" path="res://scripts/Player/PlayerController.cs" id="2_player"]
+[ext_resource type="Script" uid="uid://b3y7egb84dkrw" path="res://scripts/Items/FlashlightController.cs" id="3_flashlight"]
+[ext_resource type="PackedScene" uid="uid://cntidopt25xiv" path="res://assets/models/Flashlight.glb" id="4_flashlight_model"]
+[ext_resource type="Script" uid="uid://mxdfy8knm77a" path="res://scripts/Environment/VhsPostProcessController.cs" id="5_vhs"]
+[ext_resource type="Shader" uid="uid://dx13xg7q54aa2" path="res://shaders/vhs_post_process.gdshader" id="6_vhs_shader"]
+[ext_resource type="AudioStream" uid="uid://7y02apacdgbr" path="res://assets/Songs/Ambient/vhs.mp3" id="7_vhs_audio"]
+[ext_resource type="Texture2D" uid="uid://dv8hjodsr06gk" path="res://assets/Images/entity01.png" id="8_entity_texture"]
+[ext_resource type="Script" uid="uid://c0lw3bjq3hgx5" path="res://scripts/Intro/IntroPillarField.cs" id="9_pillar_field"]
+[ext_resource type="AudioStream" path="res://assets/Songs/real.lobby.mp3" id="10_real_lobby_audio"]
+[ext_resource type="PackedScene" path="res://assets/models/first_person_arms.glb" id="11_first_person_arms"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_intro"]
+sky_top_color = Color(0, 0, 0, 1)
+sky_horizon_color = Color(0, 0, 0, 1)
+sky_energy_multiplier = 0.02
+ground_bottom_color = Color(0, 0, 0, 1)
+ground_horizon_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Sky" id="Sky_intro"]
+sky_material = SubResource("ProceduralSkyMaterial_intro")
+
+[sub_resource type="Environment" id="Environment_intro"]
+background_mode = 2
+sky = SubResource("Sky_intro")
+ambient_light_source = 2
+ambient_light_color = Color(0.05, 0.052, 0.05, 1)
+ambient_light_energy = 0.08
+tonemap_exposure = 0.88
+fog_enabled = true
+fog_light_color = Color(0.035, 0.035, 0.032, 1)
+fog_density = 0.018
+fog_sky_affect = 0.8
+adjustment_enabled = true
+adjustment_brightness = 0.84
+adjustment_contrast = 1.08
+adjustment_saturation = 0.68
+
+[sub_resource type="BoxMesh" id="BoxMesh_floor"]
+size = Vector3(110, 0.2, 190)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
+albedo_color = Color(0.14, 0.145, 0.13, 1)
+roughness = 0.96
+
+[sub_resource type="BoxShape3D" id="BoxShape_floor"]
+size = Vector3(110, 0.2, 190)
+
+[sub_resource type="BoxMesh" id="BoxMesh_far_glow"]
+size = Vector3(2.6, 1.55, 0.08)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_far_glow"]
+albedo_color = Color(0.55, 0.12, 0.09, 1)
+roughness = 0.6
+emission_enabled = true
+emission = Color(0.55, 0.06, 0.035, 1)
+emission_energy_multiplier = 1.4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wall"]
+albedo_color = Color(0.11, 0.115, 0.105, 1)
+roughness = 0.98
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall_long"]
+size = Vector3(0.45, 4.8, 120)
+
+[sub_resource type="BoxShape3D" id="BoxShape_wall_long"]
+size = Vector3(0.45, 4.8, 120)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall_end"]
+size = Vector3(48, 4.8, 0.45)
+
+[sub_resource type="BoxShape3D" id="BoxShape_wall_end"]
+size = Vector3(48, 4.8, 0.45)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pillar"]
+albedo_color = Color(0.22, 0.205, 0.165, 1)
+roughness = 0.94
+emission_enabled = true
+emission = Color(0.1, 0.08, 0.04, 1)
+emission_energy_multiplier = 0.08
+
+[sub_resource type="CylinderMesh" id="BoxMesh_pillar"]
+bottom_radius = 0.62
+height = 3.7
+radial_segments = 72
+rings = 8
+
+[sub_resource type="BoxShape3D" id="BoxShape_pillar"]
+size = Vector3(0.9, 3.7, 0.9)
+
+[sub_resource type="BoxMesh" id="BoxMesh_entity_wall"]
+size = Vector3(8, 4.2, 0.22)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_entity_wall"]
+albedo_color = Color(0.035, 0.033, 0.03, 1)
+roughness = 0.98
+
+[sub_resource type="SphereMesh" id="SphereMesh_eye"]
+radius = 0.045
+height = 0.09
+radial_segments = 16
+rings = 8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eye"]
+albedo_color = Color(1, 0.88, 0.42, 1)
+roughness = 0.18
+emission_enabled = true
+emission = Color(1, 0.78, 0.26, 1)
+emission_energy_multiplier = 5.5
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_fp_hand_grip"]
+radius = 0.065
+height = 0.18
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fp_hand_grip"]
+albedo_color = Color(0.055, 0.052, 0.046, 1)
+roughness = 0.92
+
+[sub_resource type="BoxMesh" id="BoxMesh_menu_panel"]
+size = Vector3(4.35, 0.9, 0.002)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_menu_panel"]
+transparency = 0
+shading_mode = 0
+no_depth_test = true
+depth_draw_mode = 2
+albedo_color = Color(0, 0, 0, 1)
+roughness = 0.9
+disable_receive_shadows = true
+render_priority = 127
+
+[sub_resource type="BoxMesh" id="BoxMesh_menu_frame_h"]
+size = Vector3(4.55, 0.045, 0.002)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_menu_frame"]
+shading_mode = 0
+no_depth_test = true
+depth_draw_mode = 2
+albedo_color = Color(0.86, 0.84, 0.58, 1)
+roughness = 0.5
+emission_enabled = true
+emission = Color(0.74, 0.7, 0.42, 1)
+emission_energy_multiplier = 0.45
+disable_receive_shadows = true
+render_priority = 127
+
+[sub_resource type="BoxMesh" id="BoxMesh_menu_frame_v"]
+size = Vector3(0.045, 0.98, 0.002)
+
+[sub_resource type="BoxMesh" id="BoxMesh_slider_track"]
+size = Vector3(3.6, 0.07, 0.002)
+
+[sub_resource type="BoxMesh" id="BoxMesh_slider_knob"]
+size = Vector3(0.18, 0.38, 0.002)
+
+[sub_resource type="BoxShape3D" id="BoxShape_slider_area"]
+size = Vector3(3.9, 0.62, 0.28)
+
+[sub_resource type="BoxShape3D" id="BoxShape_menu_button"]
+size = Vector3(4.55, 0.98, 0.24)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
+radius = 0.35
+height = 1.8
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vhs"]
+shader = ExtResource("6_vhs_shader")
+shader_parameter/intensity = 0.9
+shader_parameter/tape_resolution = Vector2(360, 240)
+shader_parameter/pixelation_strength = 0.82
+shader_parameter/scanline_strength = 0.42
+shader_parameter/noise_strength = 0.6
+shader_parameter/chromatic_aberration = 0.56
+shader_parameter/wobble_strength = 0.5
+shader_parameter/tracking_strength = 0.58
+shader_parameter/random_jitter_strength = 0.3
+shader_parameter/white_line_strength = 0.64
+shader_parameter/white_line_frequency = 0.52
+shader_parameter/damage_frequency = 0.46
+shader_parameter/dropout_strength = 0.24
+shader_parameter/bottom_tear_strength = 0.38
+shader_parameter/glare_strength = 0.2
+shader_parameter/glare_threshold = 0.82
+shader_parameter/glare_spread = 42.0
+shader_parameter/barrel_distortion = 0.025
+shader_parameter/scene_brightness = 0.96
+shader_parameter/scene_lift = 0.1
+shader_parameter/camera_contrast = 1.1
+shader_parameter/camera_saturation = 0.68
+shader_parameter/tape_tint = Color(1, 0.88, 0.64, 1)
+shader_parameter/tint_strength = 0.14
+shader_parameter/vignette_strength = 0.42
+shader_parameter/resolution = Vector2(1920, 1080)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_menu_button"]
+bg_color = Color(0, 0, 0, 0.46)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.88, 0.86, 0.62, 0.9)
+
+[node name="IntroScene" type="Node3D" unique_id=1860276739]
+script = ExtResource("1_intro")
+
+[node name="VhsAmbientLoop" type="AudioStreamPlayer" parent="." unique_id=1125225047]
+stream = ExtResource("7_vhs_audio")
+volume_db = -12.0
+autoplay = true
+
+[node name="RealLobbyLoop" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_real_lobby_audio")
+volume_db = -80.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1758605238]
+environment = SubResource("Environment_intro")
+
+[node name="Room" type="Node3D" parent="." unique_id=1939204591]
+
+[node name="Floor" type="StaticBody3D" parent="Room" unique_id=585071303]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/Floor" unique_id=1500032475]
+mesh = SubResource("BoxMesh_floor")
+surface_material_override/0 = SubResource("StandardMaterial3D_floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Floor" unique_id=576513568]
+shape = SubResource("BoxShape_floor")
+
+[node name="FarGlow" type="MeshInstance3D" parent="Room" unique_id=1379275786]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, -59.74)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_far_glow")
+surface_material_override/0 = SubResource("StandardMaterial3D_far_glow")
+
+[node name="FarMarkerLight" type="OmniLight3D" parent="Room" unique_id=2117018941]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.85, -58.4)
+light_color = Color(0.75, 0.08, 0.04, 1)
+light_energy = 0.32
+shadow_enabled = true
+omni_range = 7.5
+
+[node name="Ceiling" type="StaticBody3D" parent="Room" unique_id=628315868]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.65, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/Ceiling" unique_id=1203887203]
+visible = false
+mesh = SubResource("BoxMesh_floor")
+surface_material_override/0 = SubResource("StandardMaterial3D_wall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Ceiling" unique_id=1181261163]
+shape = SubResource("BoxShape_floor")
+disabled = true
+
+[node name="LeftWall" type="StaticBody3D" parent="Room" unique_id=1549308840]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24.25, 2.25, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/LeftWall" unique_id=1713066200]
+visible = false
+mesh = SubResource("BoxMesh_wall_long")
+surface_material_override/0 = SubResource("StandardMaterial3D_wall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/LeftWall" unique_id=762898188]
+shape = SubResource("BoxShape_wall_long")
+disabled = true
+
+[node name="RightWall" type="StaticBody3D" parent="Room" unique_id=997714648]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.25, 2.25, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/RightWall" unique_id=458123704]
+visible = false
+mesh = SubResource("BoxMesh_wall_long")
+surface_material_override/0 = SubResource("StandardMaterial3D_wall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/RightWall" unique_id=1828547628]
+shape = SubResource("BoxShape_wall_long")
+disabled = true
+
+[node name="BackWall" type="StaticBody3D" parent="Room" unique_id=67879017]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, -60)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/BackWall" unique_id=934106278]
+visible = false
+mesh = SubResource("BoxMesh_wall_end")
+surface_material_override/0 = SubResource("StandardMaterial3D_wall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/BackWall" unique_id=1949211902]
+shape = SubResource("BoxShape_wall_end")
+disabled = true
+
+[node name="StartWall" type="StaticBody3D" parent="Room" unique_id=1719703536]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 60)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/StartWall" unique_id=409471622]
+visible = false
+mesh = SubResource("BoxMesh_wall_end")
+surface_material_override/0 = SubResource("StandardMaterial3D_wall")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/StartWall" unique_id=1789189728]
+shape = SubResource("BoxShape_wall_end")
+disabled = true
+
+[node name="Pillars" type="Node3D" parent="Room" unique_id=1765497595]
+script = ExtResource("9_pillar_field")
+PillarMaterial = SubResource("StandardMaterial3D_pillar")
+
+[node name="PillarL1" type="StaticBody3D" parent="Room/Pillars" unique_id=392279462]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 1.75, 42)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/Pillars/PillarL1" unique_id=835549910]
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("StandardMaterial3D_pillar")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Pillars/PillarL1" unique_id=206440902]
+shape = SubResource("BoxShape_pillar")
+
+[node name="PillarR1" type="StaticBody3D" parent="Room/Pillars" unique_id=1697726078]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 1.75, 42)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/Pillars/PillarR1" unique_id=1151548557]
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("StandardMaterial3D_pillar")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Pillars/PillarR1" unique_id=1670427807]
+shape = SubResource("BoxShape_pillar")
+
+[node name="PillarL2" type="StaticBody3D" parent="Room/Pillars" unique_id=1895249042]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 1.75, 27)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/Pillars/PillarL2" unique_id=75216204]
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("StandardMaterial3D_pillar")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Pillars/PillarL2" unique_id=1936803500]
+shape = SubResource("BoxShape_pillar")
+
+[node name="PillarR2" type="StaticBody3D" parent="Room/Pillars" unique_id=64899145]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 1.75, 27)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/Pillars/PillarR2" unique_id=1428011159]
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("StandardMaterial3D_pillar")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Pillars/PillarR2" unique_id=703278701]
+shape = SubResource("BoxShape_pillar")
+
+[node name="PillarL3" type="StaticBody3D" parent="Room/Pillars" unique_id=271425232]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 1.75, 12)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/Pillars/PillarL3" unique_id=1845208365]
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("StandardMaterial3D_pillar")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Pillars/PillarL3" unique_id=1634260885]
+shape = SubResource("BoxShape_pillar")
+
+[node name="PillarR3" type="StaticBody3D" parent="Room/Pillars" unique_id=431332979]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 1.75, 12)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/Pillars/PillarR3" unique_id=1173534709]
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("StandardMaterial3D_pillar")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Pillars/PillarR3" unique_id=219497131]
+shape = SubResource("BoxShape_pillar")
+
+[node name="PillarL4" type="StaticBody3D" parent="Room/Pillars" unique_id=971288656]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 1.75, -6)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/Pillars/PillarL4" unique_id=1756187063]
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("StandardMaterial3D_pillar")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Pillars/PillarL4" unique_id=908521256]
+shape = SubResource("BoxShape_pillar")
+
+[node name="PillarR4" type="StaticBody3D" parent="Room/Pillars" unique_id=1388547262]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 1.75, -6)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/Pillars/PillarR4" unique_id=1401459647]
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("StandardMaterial3D_pillar")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Pillars/PillarR4" unique_id=197750263]
+shape = SubResource("BoxShape_pillar")
+
+[node name="PillarL5" type="StaticBody3D" parent="Room/Pillars" unique_id=888735557]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 1.75, -24)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/Pillars/PillarL5" unique_id=152057227]
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("StandardMaterial3D_pillar")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Pillars/PillarL5" unique_id=718825322]
+shape = SubResource("BoxShape_pillar")
+
+[node name="PillarR5" type="StaticBody3D" parent="Room/Pillars" unique_id=472084911]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 1.75, -24)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/Pillars/PillarR5" unique_id=1206267413]
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("StandardMaterial3D_pillar")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Pillars/PillarR5" unique_id=709175453]
+shape = SubResource("BoxShape_pillar")
+
+[node name="PillarOuterL1" type="StaticBody3D" parent="Room/Pillars" unique_id=777459520]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 1.75, 36)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/Pillars/PillarOuterL1" unique_id=1843116906]
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("StandardMaterial3D_pillar")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Pillars/PillarOuterL1" unique_id=1234375121]
+shape = SubResource("BoxShape_pillar")
+
+[node name="PillarOuterR1" type="StaticBody3D" parent="Room/Pillars" unique_id=438506138]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 1.75, 36)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/Pillars/PillarOuterR1" unique_id=1150592740]
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("StandardMaterial3D_pillar")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Pillars/PillarOuterR1" unique_id=459782860]
+shape = SubResource("BoxShape_pillar")
+
+[node name="PillarOuterL2" type="StaticBody3D" parent="Room/Pillars" unique_id=968225403]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 1.75, 18)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/Pillars/PillarOuterL2" unique_id=1787119169]
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("StandardMaterial3D_pillar")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Pillars/PillarOuterL2" unique_id=942618184]
+shape = SubResource("BoxShape_pillar")
+
+[node name="PillarOuterR2" type="StaticBody3D" parent="Room/Pillars" unique_id=844355101]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 1.75, 18)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/Pillars/PillarOuterR2" unique_id=31463972]
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("StandardMaterial3D_pillar")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Pillars/PillarOuterR2" unique_id=35437808]
+shape = SubResource("BoxShape_pillar")
+
+[node name="PillarOuterL3" type="StaticBody3D" parent="Room/Pillars" unique_id=1408199858]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 1.75, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/Pillars/PillarOuterL3" unique_id=274486129]
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("StandardMaterial3D_pillar")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Pillars/PillarOuterL3" unique_id=894261149]
+shape = SubResource("BoxShape_pillar")
+
+[node name="PillarOuterR3" type="StaticBody3D" parent="Room/Pillars" unique_id=1354723382]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 1.75, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/Pillars/PillarOuterR3" unique_id=253508406]
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("StandardMaterial3D_pillar")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Pillars/PillarOuterR3" unique_id=821070914]
+shape = SubResource("BoxShape_pillar")
+
+[node name="PillarOuterL4" type="StaticBody3D" parent="Room/Pillars" unique_id=949355861]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 1.75, -18)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/Pillars/PillarOuterL4" unique_id=1502438161]
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("StandardMaterial3D_pillar")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Pillars/PillarOuterL4" unique_id=1260126333]
+shape = SubResource("BoxShape_pillar")
+
+[node name="PillarOuterR4" type="StaticBody3D" parent="Room/Pillars" unique_id=1843203299]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 1.75, -18)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/Pillars/PillarOuterR4" unique_id=1980495358]
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("StandardMaterial3D_pillar")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Pillars/PillarOuterR4" unique_id=1418734445]
+shape = SubResource("BoxShape_pillar")
+
+[node name="PillarDeepL1" type="StaticBody3D" parent="Room/Pillars" unique_id=1394893503]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 1.75, -42)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/Pillars/PillarDeepL1" unique_id=1443126332]
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("StandardMaterial3D_pillar")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Pillars/PillarDeepL1" unique_id=1765002168]
+shape = SubResource("BoxShape_pillar")
+
+[node name="PillarDeepR1" type="StaticBody3D" parent="Room/Pillars" unique_id=976579786]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 1.75, -42)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/Pillars/PillarDeepR1" unique_id=155243670]
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("StandardMaterial3D_pillar")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Pillars/PillarDeepR1" unique_id=1684010957]
+shape = SubResource("BoxShape_pillar")
+
+[node name="PillarDeepOuterL1" type="StaticBody3D" parent="Room/Pillars" unique_id=1358283284]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 1.75, -36)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/Pillars/PillarDeepOuterL1" unique_id=989368932]
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("StandardMaterial3D_pillar")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Pillars/PillarDeepOuterL1" unique_id=648166522]
+shape = SubResource("BoxShape_pillar")
+
+[node name="PillarDeepOuterR1" type="StaticBody3D" parent="Room/Pillars" unique_id=386612263]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 1.75, -36)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/Pillars/PillarDeepOuterR1" unique_id=712826117]
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("StandardMaterial3D_pillar")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Pillars/PillarDeepOuterR1" unique_id=2006498061]
+shape = SubResource("BoxShape_pillar")
+
+[node name="EntityReveal" type="Node3D" parent="Room" unique_id=830989517]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 0, 57.65)
+
+[node name="FocusTarget" type="Marker3D" parent="Room/EntityReveal" unique_id=2096611662]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.78, 2.32, 0.02)
+
+[node name="EntityBackdrop" type="MeshInstance3D" parent="Room/EntityReveal" unique_id=518202330]
+transform = Transform3D(0.99026805, 0, -0.1391731, 0, 1, 0, 0.1391731, 0, 0.99026805, 0.6, 2.05, 1.15)
+visible = false
+cast_shadow = 0
+mesh = SubResource("BoxMesh_entity_wall")
+surface_material_override/0 = SubResource("StandardMaterial3D_entity_wall")
+
+[node name="EntityVisual" type="Sprite3D" parent="Room/EntityReveal" unique_id=894099716]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7476292, 1.3893068, 0.02400589)
+pixel_size = 0.0082
+billboard = 1
+shaded = true
+alpha_cut = 1
+texture = ExtResource("8_entity_texture")
+
+[node name="LeftEyeGlow" type="MeshInstance3D" parent="Room/EntityReveal" unique_id=505817650]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6152763, 2.7767086, 0.040000916)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_eye")
+surface_material_override/0 = SubResource("StandardMaterial3D_eye")
+
+[node name="RightEyeGlow" type="MeshInstance3D" parent="Room/EntityReveal" unique_id=1046013043]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.794107, 2.7862062, 0.034503937)
+cast_shadow = 0
+mesh = SubResource("SphereMesh_eye")
+surface_material_override/0 = SubResource("StandardMaterial3D_eye")
+
+[node name="EyeLight" type="OmniLight3D" parent="Room/EntityReveal" unique_id=67434563]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.98, 2.43, 0.22)
+light_color = Color(1, 0.78, 0.32, 1)
+light_energy = 1.4
+shadow_enabled = true
+omni_range = 4.6
+
+[node name="EntityHandLight" type="SpotLight3D" parent="Room/EntityReveal" unique_id=1582885307]
+transform = Transform3D(0.9396926, 0.017899951, -0.3415514, 0, 0.9986295, 0.05233596, 0.34202012, -0.049179714, 0.9384048, 0.78, 1.45, 0.35)
+light_color = Color(1, 0.86, 0.48, 1)
+light_energy = 6.8
+shadow_enabled = true
+shadow_normal_bias = 1.1
+shadow_opacity = 0.82
+shadow_blur = 0.65
+spot_range = 9.0
+spot_attenuation = 0.85
+spot_angle = 44.0
+spot_angle_attenuation = 0.9
+
+[node name="EntityRimLight" type="OmniLight3D" parent="Room/EntityReveal" unique_id=539476609]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.68, 1.55, 0.35)
+light_color = Color(0.78, 0.08, 0.035, 1)
+light_energy = 0.45
+omni_range = 4.2
+
+[node name="RevealPeekPillar" type="StaticBody3D" parent="Room" unique_id=1527447522]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7631512, 1.75, 56.35)
+
+[node name="Mesh" type="MeshInstance3D" parent="Room/RevealPeekPillar" unique_id=1697283541]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.68210363, 0, 0)
+mesh = SubResource("BoxMesh_pillar")
+surface_material_override/0 = SubResource("StandardMaterial3D_pillar")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/RevealPeekPillar" unique_id=1831430340]
+shape = SubResource("BoxShape_pillar")
+
+[node name="Menu3D" type="Node3D" parent="Room" unique_id=717335161]
+transform = Transform3D(-0.26217538, 0, 0.18452995, 0, 0.32, 0, -0.18452995, 0, -0.26217538, -1.6528544, 2.094067, 58.347244)
+visible = false
+
+[node name="Title3D" type="Label3D" parent="Room/Menu3D" unique_id=54824244]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 1.65, 0)
+pixel_size = 0.012
+shaded = false
+modulate = Color(0.9, 0.88, 0.66, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "PURIFY"
+font_size = 72
+outline_size = 0
+
+[node name="PlayPanel" type="MeshInstance3D" parent="Room/Menu3D" unique_id=1449009661]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_panel")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_panel")
+
+[node name="PlayTop" type="MeshInstance3D" parent="Room/Menu3D" unique_id=1071338477]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.925, 0.01)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_frame_h")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
+
+[node name="PlayBottom" type="MeshInstance3D" parent="Room/Menu3D" unique_id=354939717]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.025, 0.01)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_frame_h")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
+
+[node name="PlayLeft" type="MeshInstance3D" parent="Room/Menu3D" unique_id=246038507]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.25, 0.45, 0.01)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_frame_v")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
+
+[node name="PlayRight" type="MeshInstance3D" parent="Room/Menu3D" unique_id=1133421070]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.25, 0.45, 0.01)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_frame_v")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
+
+[node name="PlayText3D" type="Label3D" parent="Room/Menu3D" unique_id=1216433149]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.37, 0.08)
+pixel_size = 0.008
+shaded = false
+modulate = Color(0.92, 0.9, 0.72, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "PLAY"
+font_size = 52
+outline_size = 0
+
+[node name="PlayArea" type="Area3D" parent="Room/Menu3D" unique_id=1815505803]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0.14)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Menu3D/PlayArea" unique_id=327376101]
+shape = SubResource("BoxShape_menu_button")
+
+[node name="CreditsPanel" type="MeshInstance3D" parent="Room/Menu3D" unique_id=837382457]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.25, 0)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_panel")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_panel")
+
+[node name="CreditsTop" type="MeshInstance3D" parent="Room/Menu3D" unique_id=1198337642]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.775, 0.01)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_frame_h")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
+
+[node name="CreditsBottom" type="MeshInstance3D" parent="Room/Menu3D" unique_id=1158264051]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.725, 0.01)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_frame_h")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
+
+[node name="CreditsLeft" type="MeshInstance3D" parent="Room/Menu3D" unique_id=1741803758]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.25, -1.25, 0.01)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_frame_v")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
+
+[node name="CreditsRight" type="MeshInstance3D" parent="Room/Menu3D" unique_id=2038262125]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.25, -1.25, 0.01)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_frame_v")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
+
+[node name="CreditsText3D" type="Label3D" parent="Room/Menu3D" unique_id=844004840]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.33, 0.08)
+pixel_size = 0.008
+shaded = false
+modulate = Color(0.92, 0.9, 0.72, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "CREDITS"
+font_size = 52
+outline_size = 0
+
+[node name="CreditsArea" type="Area3D" parent="Room/Menu3D" unique_id=1869970189]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.25, 0.14)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Menu3D/CreditsArea" unique_id=1690142879]
+shape = SubResource("BoxShape_menu_button")
+
+[node name="SettingsPanel" type="MeshInstance3D" parent="Room/Menu3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.95, 0)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_panel")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_panel")
+
+[node name="SettingsTop" type="MeshInstance3D" parent="Room/Menu3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.475, 0.01)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_frame_h")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
+
+[node name="SettingsBottom" type="MeshInstance3D" parent="Room/Menu3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.425, 0.01)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_frame_h")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
+
+[node name="SettingsLeft" type="MeshInstance3D" parent="Room/Menu3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.25, -2.95, 0.01)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_frame_v")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
+
+[node name="SettingsRight" type="MeshInstance3D" parent="Room/Menu3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.25, -2.95, 0.01)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_frame_v")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
+
+[node name="SettingsText3D" type="Label3D" parent="Room/Menu3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.03, 0.08)
+pixel_size = 0.008
+shaded = false
+modulate = Color(0.92, 0.9, 0.72, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "SETTINGS"
+font_size = 52
+outline_size = 0
+
+[node name="SettingsArea" type="Area3D" parent="Room/Menu3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.95, 0.14)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Menu3D/SettingsArea"]
+shape = SubResource("BoxShape_menu_button")
+
+[node name="Credits3DLabel" type="Label3D" parent="Room/Menu3D" unique_id=164646386]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0.1)
+visible = false
+shaded = false
+modulate = Color(0.74, 0.7, 0.52, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "Purify prototype
+Built by Tomaxikz"
+font_size = 28
+outline_size = 0
+
+[node name="CreditsSubmenu" type="Node3D" parent="Room/Menu3D"]
+visible = false
+
+[node name="CreditsBackPanel" type="MeshInstance3D" parent="Room/Menu3D/CreditsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 0.78, 0, 0, 0, 1, 0, -1.1, 0.03)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_panel")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_panel")
+
+[node name="CreditsBackTop" type="MeshInstance3D" parent="Room/Menu3D/CreditsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, 0.04)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_frame_h")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
+
+[node name="CreditsBackBottom" type="MeshInstance3D" parent="Room/Menu3D/CreditsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.45, 0.04)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_frame_h")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
+
+[node name="CreditsBackText3D" type="Label3D" parent="Room/Menu3D/CreditsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.19, 0.12)
+pixel_size = 0.0075
+shaded = false
+modulate = Color(0.92, 0.9, 0.72, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "BACK"
+font_size = 48
+outline_size = 0
+
+[node name="CreditsBackArea" type="Area3D" parent="Room/Menu3D/CreditsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 0.78, 0, 0, 0, 1, 0, -1.1, 0.18)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Menu3D/CreditsSubmenu/CreditsBackArea"]
+shape = SubResource("BoxShape_menu_button")
+
+[node name="Settings3DLabel" type="Label3D" parent="Room/Menu3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, 0.07)
+visible = false
+shaded = false
+modulate = Color(0.74, 0.7, 0.52, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "SETTINGS
+VHS FILTER: ON
+LOBBY AUDIO: 15%
+More soon"
+font_size = 28
+outline_size = 0
+
+[node name="SettingsSubmenu" type="Node3D" parent="Room/Menu3D"]
+visible = false
+
+[node name="AudioDownPanel" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 0.78, 0, 0, 0, 1, 0, 0.38, 0.03)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_panel")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_panel")
+
+[node name="AudioDownTop" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.73, 0.04)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_frame_h")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
+
+[node name="AudioDownBottom" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0.04)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_frame_h")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
+
+[node name="AudioDownText3D" type="Label3D" parent="Room/Menu3D/SettingsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.29, 0.12)
+pixel_size = 0.0075
+shaded = false
+modulate = Color(0.92, 0.9, 0.72, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "LOWER AUDIO"
+font_size = 48
+outline_size = 0
+
+[node name="AudioDownArea" type="Area3D" parent="Room/Menu3D/SettingsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 0.78, 0, 0, 0, 1, 0, 0.38, 0.18)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Menu3D/SettingsSubmenu/AudioDownArea"]
+shape = SubResource("BoxShape_menu_button")
+
+[node name="AudioUpPanel" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 0.78, 0, 0, 0, 1, 0, -0.82, 0.03)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_panel")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_panel")
+
+[node name="AudioUpTop" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.47, 0.04)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_frame_h")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
+
+[node name="AudioUpBottom" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.17, 0.04)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_frame_h")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
+
+[node name="AudioUpText3D" type="Label3D" parent="Room/Menu3D/SettingsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.91, 0.12)
+pixel_size = 0.0075
+shaded = false
+modulate = Color(0.92, 0.9, 0.72, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "RAISE AUDIO"
+font_size = 48
+outline_size = 0
+
+[node name="AudioUpArea" type="Area3D" parent="Room/Menu3D/SettingsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 0.78, 0, 0, 0, 1, 0, -0.82, 0.18)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Menu3D/SettingsSubmenu/AudioUpArea"]
+shape = SubResource("BoxShape_menu_button")
+
+[node name="AudioSliderLabel" type="Label3D" parent="Room/Menu3D/SettingsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36, 0.12)
+pixel_size = 0.0075
+shaded = false
+modulate = Color(0.92, 0.9, 0.72, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "LOBBY AUDIO"
+font_size = 44
+outline_size = 0
+
+[node name="AudioSliderTrack" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0.05)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_slider_track")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
+
+[node name="AudioSliderFill" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+transform = Transform3D(0.61, 0, 0, 0, 1, 0, 0, 0, 1, -0.6825, -0.3, 0.08)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_slider_track")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
+
+[node name="AudioSliderKnob" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.39, -0.3, 0.12)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_slider_knob")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
+
+[node name="AudioSliderArea" type="Area3D" parent="Room/Menu3D/SettingsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0.2)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Menu3D/SettingsSubmenu/AudioSliderArea"]
+shape = SubResource("BoxShape_slider_area")
+
+[node name="AudioMutePanel" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 0.78, 0, 0, 0, 1, 0, -1.58, 0.03)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_panel")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_panel")
+
+[node name="AudioMuteTop" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.23, 0.04)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_frame_h")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
+
+[node name="AudioMuteBottom" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.93, 0.04)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_frame_h")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
+
+[node name="AudioMuteText3D" type="Label3D" parent="Room/Menu3D/SettingsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.67, 0.12)
+pixel_size = 0.0075
+shaded = false
+modulate = Color(0.92, 0.9, 0.72, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "MUTE / UNMUTE"
+font_size = 48
+outline_size = 0
+
+[node name="AudioMuteArea" type="Area3D" parent="Room/Menu3D/SettingsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 0.78, 0, 0, 0, 1, 0, -1.58, 0.18)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Menu3D/SettingsSubmenu/AudioMuteArea"]
+shape = SubResource("BoxShape_menu_button")
+
+[node name="SettingsBackPanel" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 0.78, 0, 0, 0, 1, 0, -2.78, 0.03)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_panel")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_panel")
+
+[node name="SettingsBackTop" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.43, 0.04)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_frame_h")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
+
+[node name="SettingsBackBottom" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.13, 0.04)
+cast_shadow = 0
+mesh = SubResource("BoxMesh_menu_frame_h")
+surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
+
+[node name="SettingsBackText3D" type="Label3D" parent="Room/Menu3D/SettingsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.87, 0.12)
+pixel_size = 0.0075
+shaded = false
+modulate = Color(0.92, 0.9, 0.72, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "BACK"
+font_size = 48
+outline_size = 0
+
+[node name="SettingsBackArea" type="Area3D" parent="Room/Menu3D/SettingsSubmenu"]
+transform = Transform3D(1, 0, 0, 0, 0.78, 0, 0, 0, 1, 0, -2.78, 0.18)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Menu3D/SettingsSubmenu/SettingsBackArea"]
+shape = SubResource("BoxShape_menu_button")
+
+[node name="Player" type="CharacterBody3D" parent="." unique_id=1364354929]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 52)
+script = ExtResource("2_player")
+MovementEnabled = false
+LookEnabled = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player" unique_id=662040214]
+shape = SubResource("CapsuleShape3D_player")
+
+[node name="CameraPivot" type="Node3D" parent="Player" unique_id=980760446]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.62, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Player/CameraPivot" unique_id=1355005304]
+current = true
+far = 120.0
+
+[node name="FlashlightRig" type="Node3D" parent="Player/CameraPivot/Camera3D"]
+visible = false
+
+[node name="FirstPersonArms" parent="Player/CameraPivot/Camera3D/FlashlightRig" instance=ExtResource("11_first_person_arms")]
+transform = Transform3D(0.012, 0, 0, 0, 0.012, 0, 0, 0, 0.012, 0, -0.52, -0.8)
+
+[node name="FlashlightBody" parent="Player/CameraPivot/Camera3D/FlashlightRig" unique_id=662526801 instance=ExtResource("4_flashlight_model")]
+transform = Transform3D(-9.616835e-09, 0, 0.22, 0, 0.22, 0, -0.22, 0, -9.616835e-09, 0.22, -0.38, -0.64)
+
+[node name="LeftHandGrip" type="MeshInstance3D" parent="Player/CameraPivot/Camera3D/FlashlightRig"]
+visible = false
+transform = Transform3D(0.92, -0.22, 0.32, 0.18, 0.97, 0.08, -0.34, -0.02, 0.94, 0.045, -0.305, -0.61)
+cast_shadow = 0
+mesh = SubResource("CapsuleMesh_fp_hand_grip")
+surface_material_override/0 = SubResource("StandardMaterial3D_fp_hand_grip")
+
+[node name="RightHandGrip" type="MeshInstance3D" parent="Player/CameraPivot/Camera3D/FlashlightRig"]
+visible = false
+transform = Transform3D(0.9, 0.26, -0.34, -0.22, 0.96, 0.1, 0.37, -0.02, 0.93, 0.275, -0.295, -0.61)
+cast_shadow = 0
+mesh = SubResource("CapsuleMesh_fp_hand_grip")
+surface_material_override/0 = SubResource("StandardMaterial3D_fp_hand_grip")
+
+[node name="Flashlight" type="SpotLight3D" parent="Player/CameraPivot/Camera3D" unique_id=2031377889]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18, -0.17, -0.56)
+light_color = Color(1, 0.92, 0.76, 1)
+light_energy = 0.0
+light_cull_mask = 1
+shadow_enabled = true
+shadow_bias = 0.025
+shadow_normal_bias = 1.25
+shadow_blur = 0.55
+shadow_caster_mask = 1
+spot_range = 34.0
+spot_attenuation = 1.15
+spot_angle = 36.0
+script = ExtResource("3_flashlight")
+StartsEnabled = false
+ToggleEnabled = false
+VisualModelPath = NodePath("../FlashlightRig")
+BeamEnergy = 7.5
+BeamRange = 34.0
+BeamAngleDegrees = 36.0
+EnergyResponse = 28.0
+ShadowBiasAmount = 0.025
+ShadowNormalBiasAmount = 1.25
+ShadowBlurAmount = 0.55
+BatteryDrainPerSecond = 0.003
+
+[node name="PostProcessLayer" type="CanvasLayer" parent="." unique_id=1637706827]
+layer = 10
+
+[node name="VhsOverlay" type="ColorRect" parent="PostProcessLayer" unique_id=462733670]
+z_index = 10
+material = SubResource("ShaderMaterial_vhs")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("5_vhs")
+
+[node name="IntroLayer" type="CanvasLayer" parent="." unique_id=1032754968]
+layer = 5
+
+[node name="Blackout" type="ColorRect" parent="IntroLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="PrimaryText" type="RichTextLabel" parent="IntroLayer" unique_id=1387217353]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -520.0
+offset_top = -92.0
+offset_right = 520.0
+offset_bottom = -18.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.36)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/normal_font_size = 58
+bbcode_enabled = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SecondaryText" type="RichTextLabel" parent="IntroLayer" unique_id=284031813]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -560.0
+offset_top = 12.0
+offset_right = 560.0
+offset_bottom = 78.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.32)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/normal_font_size = 34
+bbcode_enabled = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MenuLayer" type="Control" parent="." unique_id=1080810422]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="TitleLabel" type="Label" parent="MenuLayer" unique_id=111593385]
+layout_mode = 0
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 218.0
+offset_top = -270.0
+offset_right = 670.0
+offset_bottom = -178.0
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.92, 0.9, 0.72, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.85)
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 62
+text = "PURIFY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayButton" type="Button" parent="MenuLayer" unique_id=784812952]
+layout_mode = 0
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 150.0
+offset_top = -76.0
+offset_right = 760.0
+offset_bottom = 18.0
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.92, 0.9, 0.72, 1)
+theme_override_colors/font_pressed_color = Color(0.7, 0.66, 0.48, 1)
+theme_override_colors/font_hover_color = Color(1, 0.96, 0.78, 1)
+theme_override_font_sizes/font_size = 38
+theme_override_styles/normal = SubResource("StyleBoxFlat_menu_button")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_menu_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_menu_button")
+text = "PLAY"
+
+[node name="CreditsButton" type="Button" parent="MenuLayer" unique_id=930592475]
+layout_mode = 0
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 150.0
+offset_top = 158.0
+offset_right = 760.0
+offset_bottom = 252.0
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.92, 0.9, 0.72, 1)
+theme_override_colors/font_pressed_color = Color(0.7, 0.66, 0.48, 1)
+theme_override_colors/font_hover_color = Color(1, 0.96, 0.78, 1)
+theme_override_font_sizes/font_size = 38
+theme_override_styles/normal = SubResource("StyleBoxFlat_menu_button")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_menu_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_menu_button")
+text = "CREDITS"
+
+[node name="CreditsLabel" type="Label" parent="MenuLayer" unique_id=2088535847]
+visible = false
+layout_mode = 0
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 160.0
+offset_top = 274.0
+offset_right = 760.0
+offset_bottom = 346.0
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.85, 0.8, 0.6, 0.9)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.9)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 15
+text = "Purify prototype
+Built by Tomaxikz"
+horizontal_alignment = 2

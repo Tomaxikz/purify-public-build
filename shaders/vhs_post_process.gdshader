@@ -114,8 +114,8 @@ void fragment() {
 	vec3 right_color = sample_tape(sample_uv + vec2(chroma_step * 1.35, 0.0));
 	vec3 center_yiq = rgb_to_yiq(native_color);
 	float y = center_yiq.x;
-	float sharp_y = dot(left_color + right_color, LUMA) - y * 2.0;
-	y -= sharp_y * 0.055;
+	float sharp_y = max(dot(left_color + right_color, LUMA) - y * 2.0, 0.0);
+	y -= sharp_y * 0.018;
 
 	vec2 chroma = center_yiq.yz * 0.5;
 	chroma += rgb_to_yiq(left_color).yz * 0.29;
@@ -125,15 +125,8 @@ void fragment() {
 
 	vec3 color = mix(native_color, yiq_to_rgb(vec3(y, chroma)), 0.72);
 
-	vec3 glare = vec3(0.0);
-	for (int i = 1; i <= 5; i++) {
-		float offset = (float(i) * glare_spread) / max(resolution.x, 1.0);
-		vec3 left_glare = sample_tape(sample_uv - vec2(offset, 0.0));
-		vec3 right_glare = sample_tape(sample_uv + vec2(offset, 0.0));
-		glare += max(left_glare - vec3(glare_threshold), vec3(0.0));
-		glare += max(right_glare - vec3(glare_threshold), vec3(0.0));
-	}
-	color += glare * glare_strength * vec3(1.0, 0.72, 0.38) * 0.2;
+	float glare_luma = smoothstep(glare_threshold, 1.0, dot(native_color, LUMA));
+	color += glare_luma * glare_strength * vec3(1.0, 0.72, 0.38) * 0.08;
 
 	float field = mod(floor(FRAGCOORD.y) + mod(frame, 2.0), 2.0);
 	color *= mix(1.0, 0.965, field * intensity);

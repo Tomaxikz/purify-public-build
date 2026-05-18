@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://de7s0n1m0i1o0"]
+
+[ext_resource type="Script" uid="uid://bsqaovheagd4w" path="res://scripts/Entities/EntityChaseController.cs" id="1_entity_ai"]
+[ext_resource type="Texture2D" uid="uid://dv8hjodsr06gk" path="res://assets/Images/entity01.png" id="2_entity_texture"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_entity"]
+radius = 0.38
+height = 2.35
+
+[node name="Entity01" type="CharacterBody3D" unique_id=595106503]
+collision_layer = 2
+script = ExtResource("1_entity_ai")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=528345927]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 0)
+shape = SubResource("CapsuleShape3D_entity")
+
+[node name="Visual" type="Sprite3D" parent="." unique_id=1449091712]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0016558766, 1.4999998, -0.04347655)
+pixel_size = 0.006
+billboard = 1
+shaded = true
+double_sided = false
+alpha_cut = 1
+texture = ExtResource("2_entity_texture")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1780279306]
+path_desired_distance = 0.5
+target_desired_distance = 1.15

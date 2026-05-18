@@ -1,12 +1,21 @@
-[gd_scene load_steps=18 format=3 uid="uid://cn8truc647anq"]
+[gd_scene load_steps=32 format=3 uid="uid://cn8truc647anq"]
 
-[ext_resource type="Script" path="res://scripts/PlayerController.cs" id="1_player"]
-[ext_resource type="Script" path="res://scripts/SunRig.cs" id="2_sun_rig"]
-[ext_resource type="Script" path="res://scripts/LightingEnvironmentController.cs" id="3_environment"]
-[ext_resource type="Script" path="res://scripts/VhsPostProcessController.cs" id="4_vhs_controller"]
-[ext_resource type="Script" path="res://scripts/LightingTestObjects.cs" id="5_test_objects"]
+[ext_resource type="Script" path="res://scripts/Player/PlayerController.cs" id="1_player"]
+[ext_resource type="Script" path="res://scripts/Environment/SunRig.cs" id="2_sun_rig"]
+[ext_resource type="Script" path="res://scripts/Environment/LightingEnvironmentController.cs" id="3_environment"]
+[ext_resource type="Script" path="res://scripts/Environment/VhsPostProcessController.cs" id="4_vhs_controller"]
+[ext_resource type="Script" path="res://scripts/Environment/LightingTestObjects.cs" id="5_test_objects"]
 [ext_resource type="Shader" path="res://shaders/vhs_post_process.gdshader" id="6_vhs_shader"]
-[ext_resource type="Script" path="res://scripts/CamcorderHudController.cs" id="7_camcorder_hud"]
+[ext_resource type="Script" path="res://scripts/UI/CamcorderHudController.cs" id="7_camcorder_hud"]
+[ext_resource type="Script" path="res://scripts/Items/FlashlightController.cs" id="8_flashlight"]
+[ext_resource type="Script" path="res://scripts/UI/DebugMenuController.cs" id="9_debug_menu"]
+[ext_resource type="PackedScene" uid="uid://de7s0n1m0i1o0" path="res://entities/Entity01.tscn" id="10_entity01"]
+[ext_resource type="Script" path="res://scripts/UI/DeathScreenController.cs" id="11_death_screen"]
+[ext_resource type="PackedScene" uid="uid://cntidopt25xiv" path="res://assets/models/Flashlight.glb" id="12_flashlight_model"]
+[ext_resource type="AudioStream" uid="uid://7y02apacdgbr" path="res://assets/Songs/Ambient/vhs.mp3" id="13_vhs_ambient"]
+[ext_resource type="AudioStream" path="res://assets/Songs/lobby.mp3" id="14_lobby_music"]
+[ext_resource type="Script" path="res://scripts/Audio/LoopingAudioPlayer.cs" id="15_looping_audio"]
+[ext_resource type="PackedScene" path="res://assets/models/first_person_arms.glb" id="16_first_person_arms"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_baseplate"]
 albedo_color = Color(0.31, 0.335, 0.315, 1)
@@ -18,9 +27,27 @@ size = Vector3(42, 0.2, 42)
 [sub_resource type="BoxShape3D" id="BoxShape3D_baseplate"]
 size = Vector3(42, 0.2, 42)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_shadow_probe"]
+albedo_color = Color(0.64, 0.68, 0.62, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="BoxMesh_shadow_blocker"]
+size = Vector3(0.7, 1.6, 0.28)
+
+[sub_resource type="BoxMesh" id="BoxMesh_shadow_receiver"]
+size = Vector3(4, 2.4, 0.16)
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
 radius = 0.35
 height = 1.8
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_fp_hand_grip"]
+radius = 0.065
+height = 0.18
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fp_hand_grip"]
+albedo_color = Color(0.055, 0.052, 0.046, 1)
+roughness = 0.92
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_base"]
 sky_top_color = Color(0.31, 0.42, 0.52, 1)
@@ -99,6 +126,17 @@ shader_parameter/resolution = Vector2(1920, 1080)
 
 [node name="Dev" type="Node3D"]
 
+[node name="VhsAmbientLoop" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_vhs_ambient")
+volume_db = -12.0
+autoplay = true
+
+[node name="LobbyMusicLoop" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("14_lobby_music")
+volume_db = -16.5
+autoplay = true
+script = ExtResource("15_looping_audio")
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_base")
 script = ExtResource("3_environment")
@@ -123,6 +161,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_sun_disc")
 position = Vector3(0, -0.1, 0)
 
 [node name="Mesh" type="MeshInstance3D" parent="Baseplate"]
+cast_shadow = 1
 mesh = SubResource("BoxMesh_baseplate")
 surface_material_override/0 = SubResource("StandardMaterial3D_baseplate")
 
@@ -132,6 +171,27 @@ shape = SubResource("BoxShape3D_baseplate")
 [node name="LightingTestObjects" type="Node3D" parent="."]
 position = Vector3(-2, 0, -6)
 script = ExtResource("5_test_objects")
+
+[node name="FlashlightShadowProbe" type="Node3D" parent="."]
+position = Vector3(2.6, 0, 3.4)
+
+[node name="Receiver" type="MeshInstance3D" parent="FlashlightShadowProbe"]
+cast_shadow = 1
+position = Vector3(0, 1.2, -1.2)
+mesh = SubResource("BoxMesh_shadow_receiver")
+surface_material_override/0 = SubResource("StandardMaterial3D_shadow_probe")
+
+[node name="Blocker" type="MeshInstance3D" parent="FlashlightShadowProbe"]
+cast_shadow = 1
+position = Vector3(0, 0.8, 0.35)
+mesh = SubResource("BoxMesh_shadow_blocker")
+surface_material_override/0 = SubResource("StandardMaterial3D_shadow_probe")
+
+[node name="Entities" type="Node3D" parent="."]
+
+[node name="Entity01" parent="Entities" instance=ExtResource("10_entity01")]
+position = Vector3(0, 0.1, -13)
+TargetPath = NodePath("../../Player")
 
 [node name="Player" type="CharacterBody3D" parent="."]
 position = Vector3(0, 1.05, 8)
@@ -148,6 +208,49 @@ current = true
 fov = 75.0
 near = 0.05
 far = 120.0
+
+[node name="FlashlightRig" type="Node3D" parent="Player/CameraPivot/Camera3D"]
+
+[node name="FirstPersonArms" parent="Player/CameraPivot/Camera3D/FlashlightRig" instance=ExtResource("16_first_person_arms")]
+position = Vector3(0, -0.52, -0.8)
+scale = Vector3(0.012, 0.012, 0.012)
+
+[node name="FlashlightBody" parent="Player/CameraPivot/Camera3D/FlashlightRig" instance=ExtResource("12_flashlight_model")]
+position = Vector3(0.22, -0.38, -0.64)
+rotation_degrees = Vector3(0, 90, 0)
+scale = Vector3(0.22, 0.22, 0.22)
+
+[node name="LeftHandGrip" type="MeshInstance3D" parent="Player/CameraPivot/Camera3D/FlashlightRig"]
+visible = false
+transform = Transform3D(0.92, -0.22, 0.32, 0.18, 0.97, 0.08, -0.34, -0.02, 0.94, 0.045, -0.305, -0.61)
+cast_shadow = 0
+mesh = SubResource("CapsuleMesh_fp_hand_grip")
+surface_material_override/0 = SubResource("StandardMaterial3D_fp_hand_grip")
+
+[node name="RightHandGrip" type="MeshInstance3D" parent="Player/CameraPivot/Camera3D/FlashlightRig"]
+visible = false
+transform = Transform3D(0.9, 0.26, -0.34, -0.22, 0.96, 0.1, 0.37, -0.02, 0.93, 0.275, -0.295, -0.61)
+cast_shadow = 0
+mesh = SubResource("CapsuleMesh_fp_hand_grip")
+surface_material_override/0 = SubResource("StandardMaterial3D_fp_hand_grip")
+
+[node name="Flashlight" type="SpotLight3D" parent="Player/CameraPivot/Camera3D"]
+position = Vector3(0.18, -0.17, -0.56)
+light_cull_mask = 1
+light_color = Color(1, 0.92, 0.76, 1)
+light_energy = 4.8
+shadow_enabled = true
+shadow_opacity = 1.0
+shadow_bias = 0.006
+shadow_normal_bias = 0.45
+shadow_blur = 0.15
+shadow_caster_mask = 1
+spot_range = 26.0
+spot_angle = 34.0
+spot_attenuation = 1.2
+spot_angle_attenuation = 1.0
+script = ExtResource("8_flashlight")
+VisualModelPath = NodePath("../FlashlightRig")
 
 [node name="PostProcessLayer" type="CanvasLayer" parent="."]
 layer = 10
@@ -402,3 +505,27 @@ grow_horizontal = 0
 grow_vertical = 0
 mouse_filter = 2
 color = Color(0.9, 0.86, 0.58, 0.7)
+
+[node name="DebugMenu" type="Control" parent="PostProcessLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+z_index = 100
+mouse_filter = 2
+script = ExtResource("9_debug_menu")
+
+[node name="DeathScreen" type="Control" parent="PostProcessLayer"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+z_index = 5
+mouse_filter = 2
+script = ExtResource("11_death_screen")
