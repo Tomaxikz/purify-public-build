@@ -84,8 +84,9 @@ public partial class IntroSceneController : Node3D
     [Export] public float FocusSeconds { get; set; } = 1.15f;
     [Export(PropertyHint.Range, "0.05,4,0.01")] public float FocusCatchSeconds { get; set; } = 1.75f;
     [Export(PropertyHint.Range, "0.05,4,0.01")] public float FocusZoomSeconds { get; set; } = 1.1f;
-    [Export(PropertyHint.Range, "12,75,0.5")] public float FocusTargetFov { get; set; } = 38f;
-    [Export] public Vector3 FocusCameraOffset { get; set; } = new Vector3(1.2f, -0.05f, -2.85f);
+    [Export(PropertyHint.Range, "12,75,0.5")] public float FocusTargetFov { get; set; } = 34.5f;
+    [Export] public Vector3 FocusCameraOffset { get; set; } = new Vector3(-0.65f, -0.1f, -3.25f);
+    [Export] public Vector3 FocusLookOffset { get; set; } = new Vector3(-1.18f, 0.52f, 0f);
     [Export] public Vector2 LeftEyeSpriteOffset { get; set; } = new Vector2(-0.13f, 1.39f);
     [Export] public Vector2 RightEyeSpriteOffset { get; set; } = new Vector2(0.05f, 1.39f);
     [Export] public float EyeDepthOffset { get; set; } = 0.03f;
@@ -730,8 +731,10 @@ public partial class IntroSceneController : Node3D
         _player.SetControlEnabled(false);
         Input.MouseMode = Input.MouseModeEnum.Visible;
 
+        Vector3 focusPosition = GetRevealFocusPosition();
         Vector3 startPosition = _player.GlobalPosition;
-        Vector3 targetPosition = _entity.GlobalPosition + FocusCameraOffset;
+        Vector3 cameraTargetPosition = focusPosition + FocusCameraOffset;
+        Vector3 targetPosition = cameraTargetPosition - GetCameraToPlayerOffset();
         targetPosition.Y = Mathf.Max(targetPosition.Y, 1.05f);
         float startFov = _camera.Fov;
         Basis startPlayerBasis = _player.GlobalTransform.Basis;
@@ -746,12 +749,12 @@ public partial class IntroSceneController : Node3D
             float progress = Mathf.Clamp(elapsed / Mathf.Max(FocusCatchSeconds, 0.05f), 0f, 1f);
             float eased = EaseInOut(progress);
             _player.GlobalPosition = startPosition.Lerp(targetPosition, eased);
-            SmoothLookAtReveal(_player, _camera, startPlayerBasis, startCameraBasis, eased);
+            SmoothLookAtReveal(_player, _camera, startPlayerBasis, startCameraBasis, focusPosition, eased);
             _camera.Fov = startFov;
         }
 
         _player.GlobalPosition = targetPosition;
-        SmoothLookAtReveal(_player, _camera, startPlayerBasis, startCameraBasis, 1f);
+        SmoothLookAtReveal(_player, _camera, startPlayerBasis, startCameraBasis, focusPosition, 1f);
 
         elapsed = 0f;
         while (elapsed < FocusZoomSeconds)
@@ -761,7 +764,7 @@ public partial class IntroSceneController : Node3D
             elapsed += delta;
             float progress = Mathf.Clamp(elapsed / Mathf.Max(FocusZoomSeconds, 0.05f), 0f, 1f);
             float eased = EaseInOut(progress);
-            SmoothLookAtReveal(_player, _camera, startPlayerBasis, startCameraBasis, 1f);
+            SmoothLookAtReveal(_player, _camera, startPlayerBasis, startCameraBasis, focusPosition, 1f);
             _camera.Fov = Mathf.Lerp(startFov, FocusTargetFov, eased);
         }
 
@@ -770,18 +773,38 @@ public partial class IntroSceneController : Node3D
         ShowMenu();
     }
 
+    private Vector3 GetRevealFocusPosition()
+    {
+        if (_entityVisual != null)
+        {
+            return _entityVisual.GlobalPosition + FocusLookOffset;
+        }
+
+        return GetNoticeTargetPosition();
+    }
+
+    private Vector3 GetCameraToPlayerOffset()
+    {
+        if (_camera == null || _player == null)
+        {
+            return Vector3.Zero;
+        }
+
+        return _camera.GlobalPosition - _player.GlobalPosition;
+    }
+
     private static float EaseInOut(float progress)
     {
         progress = Mathf.Clamp(progress, 0f, 1f);
         return progress * progress * (3f - 2f * progress);
     }
 
-    private void SmoothLookAtReveal(Node3D player, Camera3D camera, Basis startPlayerBasis, Basis startCameraBasis, float progress)
+    private void SmoothLookAtReveal(Node3D player, Camera3D camera, Basis startPlayerBasis, Basis startCameraBasis, Vector3 focusPosition, float progress)
     {
         Transform3D playerLook = player.GlobalTransform;
-        playerLook = playerLook.LookingAt(_entity!.GlobalPosition, Vector3.Up);
+        playerLook = playerLook.LookingAt(focusPosition, Vector3.Up);
         Transform3D cameraLook = camera.GlobalTransform;
-        cameraLook = cameraLook.LookingAt(_entity.GlobalPosition, Vector3.Up);
+        cameraLook = cameraLook.LookingAt(focusPosition, Vector3.Up);
         float easedRotation = EaseInOut(progress);
 
         Transform3D playerTransform = player.GlobalTransform;
@@ -1516,7 +1539,10 @@ public partial class IntroSceneController : Node3D
             }
 
             string name = node3D.Name.ToString();
-            if (name == "SettingsSubmenu" || name == "Settings3DLabel" || name == "Credits3DLabel")
+            if (name == "SettingsSubmenu"
+                || name == "CreditsSubmenu"
+                || name == "Settings3DLabel"
+                || name == "Credits3DLabel")
             {
                 continue;
             }

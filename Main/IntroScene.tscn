@@ -9,8 +9,8 @@
 [ext_resource type="AudioStream" uid="uid://7y02apacdgbr" path="res://assets/Songs/Ambient/vhs.mp3" id="7_vhs_audio"]
 [ext_resource type="Texture2D" uid="uid://dv8hjodsr06gk" path="res://assets/Images/entity01.png" id="8_entity_texture"]
 [ext_resource type="Script" uid="uid://c0lw3bjq3hgx5" path="res://scripts/Intro/IntroPillarField.cs" id="9_pillar_field"]
-[ext_resource type="AudioStream" path="res://assets/Songs/real.lobby.mp3" id="10_real_lobby_audio"]
-[ext_resource type="PackedScene" path="res://assets/models/first_person_arms.glb" id="11_first_person_arms"]
+[ext_resource type="AudioStream" uid="uid://b6meod2fv7g7h" path="res://assets/Songs/real.lobby.mp3" id="10_real_lobby_audio"]
+[ext_resource type="PackedScene" uid="uid://bt5erueeyig6x" path="res://assets/models/first_person_arms.glb" id="11_first_person_arms"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_intro"]
 sky_top_color = Color(0, 0, 0, 1)
@@ -110,44 +110,33 @@ emission_enabled = true
 emission = Color(1, 0.78, 0.26, 1)
 emission_energy_multiplier = 5.5
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_fp_hand_grip"]
-radius = 0.065
-height = 0.18
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fp_hand_grip"]
-albedo_color = Color(0.055, 0.052, 0.046, 1)
-roughness = 0.92
-
 [sub_resource type="BoxMesh" id="BoxMesh_menu_panel"]
 size = Vector3(4.35, 0.9, 0.002)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_menu_panel"]
-transparency = 0
-shading_mode = 0
-no_depth_test = true
-depth_draw_mode = 2
-albedo_color = Color(0, 0, 0, 1)
-roughness = 0.9
-disable_receive_shadows = true
 render_priority = 127
+depth_draw_mode = 2
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 1)
+disable_receive_shadows = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_menu_frame_h"]
 size = Vector3(4.55, 0.045, 0.002)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_menu_frame"]
-shading_mode = 0
-no_depth_test = true
-depth_draw_mode = 2
-albedo_color = Color(0.86, 0.84, 0.58, 1)
-roughness = 0.5
-emission_enabled = true
-emission = Color(0.74, 0.7, 0.42, 1)
-emission_energy_multiplier = 0.45
-disable_receive_shadows = true
 render_priority = 127
+depth_draw_mode = 2
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(0.86, 0.84, 0.58, 1)
+disable_receive_shadows = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_menu_frame_v"]
 size = Vector3(0.045, 0.98, 0.002)
+
+[sub_resource type="BoxShape3D" id="BoxShape_menu_button"]
+size = Vector3(4.55, 0.98, 0.24)
 
 [sub_resource type="BoxMesh" id="BoxMesh_slider_track"]
 size = Vector3(3.6, 0.07, 0.002)
@@ -158,12 +147,17 @@ size = Vector3(0.18, 0.38, 0.002)
 [sub_resource type="BoxShape3D" id="BoxShape_slider_area"]
 size = Vector3(3.9, 0.62, 0.28)
 
-[sub_resource type="BoxShape3D" id="BoxShape_menu_button"]
-size = Vector3(4.55, 0.98, 0.24)
-
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
 radius = 0.35
 height = 1.8
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_fp_hand_grip"]
+radius = 0.065
+height = 0.18
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fp_hand_grip"]
+albedo_color = Color(0.055, 0.052, 0.046, 1)
+roughness = 0.92
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vhs"]
 shader = ExtResource("6_vhs_shader")
@@ -210,7 +204,7 @@ stream = ExtResource("7_vhs_audio")
 volume_db = -12.0
 autoplay = true
 
-[node name="RealLobbyLoop" type="AudioStreamPlayer" parent="."]
+[node name="RealLobbyLoop" type="AudioStreamPlayer" parent="." unique_id=1189142814]
 stream = ExtResource("10_real_lobby_audio")
 volume_db = -80.0
 
@@ -527,7 +521,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_pillar")
 shape = SubResource("BoxShape_pillar")
 
 [node name="EntityReveal" type="Node3D" parent="Room" unique_id=830989517]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 0, 57.65)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.97129625, 0, 57.65)
 
 [node name="FocusTarget" type="Marker3D" parent="Room/EntityReveal" unique_id=2096611662]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.78, 2.32, 0.02)
@@ -586,7 +580,7 @@ light_energy = 0.45
 omni_range = 4.2
 
 [node name="RevealPeekPillar" type="StaticBody3D" parent="Room" unique_id=1527447522]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7631512, 1.75, 56.35)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.335707, 1.75, 56.35)
 
 [node name="Mesh" type="MeshInstance3D" parent="Room/RevealPeekPillar" unique_id=1697283541]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.68210363, 0, 0)
@@ -603,7 +597,6 @@ visible = false
 [node name="Title3D" type="Label3D" parent="Room/Menu3D" unique_id=54824244]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 1.65, 0)
 pixel_size = 0.012
-shaded = false
 modulate = Color(0.9, 0.88, 0.66, 1)
 outline_modulate = Color(0, 0, 0, 0)
 text = "PURIFY"
@@ -643,7 +636,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
 [node name="PlayText3D" type="Label3D" parent="Room/Menu3D" unique_id=1216433149]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.37, 0.08)
 pixel_size = 0.008
-shaded = false
 modulate = Color(0.92, 0.9, 0.72, 1)
 outline_modulate = Color(0, 0, 0, 0)
 text = "PLAY"
@@ -689,7 +681,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
 [node name="CreditsText3D" type="Label3D" parent="Room/Menu3D" unique_id=844004840]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.33, 0.08)
 pixel_size = 0.008
-shaded = false
 modulate = Color(0.92, 0.9, 0.72, 1)
 outline_modulate = Color(0, 0, 0, 0)
 text = "CREDITS"
@@ -702,56 +693,54 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.25, 0.14)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Menu3D/CreditsArea" unique_id=1690142879]
 shape = SubResource("BoxShape_menu_button")
 
-[node name="SettingsPanel" type="MeshInstance3D" parent="Room/Menu3D"]
+[node name="SettingsPanel" type="MeshInstance3D" parent="Room/Menu3D" unique_id=1201978458]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.95, 0)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_menu_panel")
 surface_material_override/0 = SubResource("StandardMaterial3D_menu_panel")
 
-[node name="SettingsTop" type="MeshInstance3D" parent="Room/Menu3D"]
+[node name="SettingsTop" type="MeshInstance3D" parent="Room/Menu3D" unique_id=1850145952]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.475, 0.01)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_menu_frame_h")
 surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
 
-[node name="SettingsBottom" type="MeshInstance3D" parent="Room/Menu3D"]
+[node name="SettingsBottom" type="MeshInstance3D" parent="Room/Menu3D" unique_id=334521737]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.425, 0.01)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_menu_frame_h")
 surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
 
-[node name="SettingsLeft" type="MeshInstance3D" parent="Room/Menu3D"]
+[node name="SettingsLeft" type="MeshInstance3D" parent="Room/Menu3D" unique_id=1623357196]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.25, -2.95, 0.01)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_menu_frame_v")
 surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
 
-[node name="SettingsRight" type="MeshInstance3D" parent="Room/Menu3D"]
+[node name="SettingsRight" type="MeshInstance3D" parent="Room/Menu3D" unique_id=687534823]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.25, -2.95, 0.01)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_menu_frame_v")
 surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
 
-[node name="SettingsText3D" type="Label3D" parent="Room/Menu3D"]
+[node name="SettingsText3D" type="Label3D" parent="Room/Menu3D" unique_id=1753342574]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.03, 0.08)
 pixel_size = 0.008
-shaded = false
 modulate = Color(0.92, 0.9, 0.72, 1)
 outline_modulate = Color(0, 0, 0, 0)
 text = "SETTINGS"
 font_size = 52
 outline_size = 0
 
-[node name="SettingsArea" type="Area3D" parent="Room/Menu3D"]
+[node name="SettingsArea" type="Area3D" parent="Room/Menu3D" unique_id=155388134]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.95, 0.14)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Menu3D/SettingsArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Menu3D/SettingsArea" unique_id=103123729]
 shape = SubResource("BoxShape_menu_button")
 
 [node name="Credits3DLabel" type="Label3D" parent="Room/Menu3D" unique_id=164646386]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0.1)
 visible = false
-shaded = false
 modulate = Color(0.74, 0.7, 0.52, 1)
 outline_modulate = Color(0, 0, 0, 0)
 text = "Purify prototype
@@ -759,51 +748,49 @@ Built by Tomaxikz"
 font_size = 28
 outline_size = 0
 
-[node name="CreditsSubmenu" type="Node3D" parent="Room/Menu3D"]
+[node name="CreditsSubmenu" type="Node3D" parent="Room/Menu3D" unique_id=985245510]
 visible = false
 
-[node name="CreditsBackPanel" type="MeshInstance3D" parent="Room/Menu3D/CreditsSubmenu"]
+[node name="CreditsBackPanel" type="MeshInstance3D" parent="Room/Menu3D/CreditsSubmenu" unique_id=1655866628]
 transform = Transform3D(1, 0, 0, 0, 0.78, 0, 0, 0, 1, 0, -1.1, 0.03)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_menu_panel")
 surface_material_override/0 = SubResource("StandardMaterial3D_menu_panel")
 
-[node name="CreditsBackTop" type="MeshInstance3D" parent="Room/Menu3D/CreditsSubmenu"]
+[node name="CreditsBackTop" type="MeshInstance3D" parent="Room/Menu3D/CreditsSubmenu" unique_id=1784252650]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, 0.04)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_menu_frame_h")
 surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
 
-[node name="CreditsBackBottom" type="MeshInstance3D" parent="Room/Menu3D/CreditsSubmenu"]
+[node name="CreditsBackBottom" type="MeshInstance3D" parent="Room/Menu3D/CreditsSubmenu" unique_id=1497401457]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.45, 0.04)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_menu_frame_h")
 surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
 
-[node name="CreditsBackText3D" type="Label3D" parent="Room/Menu3D/CreditsSubmenu"]
+[node name="CreditsBackText3D" type="Label3D" parent="Room/Menu3D/CreditsSubmenu" unique_id=2030255170]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.19, 0.12)
 pixel_size = 0.0075
-shaded = false
 modulate = Color(0.92, 0.9, 0.72, 1)
 outline_modulate = Color(0, 0, 0, 0)
 text = "BACK"
 font_size = 48
 outline_size = 0
 
-[node name="CreditsBackArea" type="Area3D" parent="Room/Menu3D/CreditsSubmenu"]
+[node name="CreditsBackArea" type="Area3D" parent="Room/Menu3D/CreditsSubmenu" unique_id=2009957538]
 transform = Transform3D(1, 0, 0, 0, 0.78, 0, 0, 0, 1, 0, -1.1, 0.18)
 collision_layer = 0
 collision_mask = 0
 monitoring = false
 monitorable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Menu3D/CreditsSubmenu/CreditsBackArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Menu3D/CreditsSubmenu/CreditsBackArea" unique_id=1615375398]
 shape = SubResource("BoxShape_menu_button")
 
-[node name="Settings3DLabel" type="Label3D" parent="Room/Menu3D"]
+[node name="Settings3DLabel" type="Label3D" parent="Room/Menu3D" unique_id=1516175642]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, 0.07)
 visible = false
-shaded = false
 modulate = Color(0.74, 0.7, 0.52, 1)
 outline_modulate = Color(0, 0, 0, 0)
 text = "SETTINGS
@@ -813,197 +800,192 @@ More soon"
 font_size = 28
 outline_size = 0
 
-[node name="SettingsSubmenu" type="Node3D" parent="Room/Menu3D"]
+[node name="SettingsSubmenu" type="Node3D" parent="Room/Menu3D" unique_id=1981576283]
 visible = false
 
-[node name="AudioDownPanel" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+[node name="AudioDownPanel" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu" unique_id=1759581957]
 transform = Transform3D(1, 0, 0, 0, 0.78, 0, 0, 0, 1, 0, 0.38, 0.03)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_menu_panel")
 surface_material_override/0 = SubResource("StandardMaterial3D_menu_panel")
 
-[node name="AudioDownTop" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+[node name="AudioDownTop" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu" unique_id=943714444]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.73, 0.04)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_menu_frame_h")
 surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
 
-[node name="AudioDownBottom" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+[node name="AudioDownBottom" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu" unique_id=480410406]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0.04)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_menu_frame_h")
 surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
 
-[node name="AudioDownText3D" type="Label3D" parent="Room/Menu3D/SettingsSubmenu"]
+[node name="AudioDownText3D" type="Label3D" parent="Room/Menu3D/SettingsSubmenu" unique_id=397897808]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.29, 0.12)
 pixel_size = 0.0075
-shaded = false
 modulate = Color(0.92, 0.9, 0.72, 1)
 outline_modulate = Color(0, 0, 0, 0)
 text = "LOWER AUDIO"
 font_size = 48
 outline_size = 0
 
-[node name="AudioDownArea" type="Area3D" parent="Room/Menu3D/SettingsSubmenu"]
+[node name="AudioDownArea" type="Area3D" parent="Room/Menu3D/SettingsSubmenu" unique_id=114219656]
 transform = Transform3D(1, 0, 0, 0, 0.78, 0, 0, 0, 1, 0, 0.38, 0.18)
 collision_layer = 0
 collision_mask = 0
 monitoring = false
 monitorable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Menu3D/SettingsSubmenu/AudioDownArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Menu3D/SettingsSubmenu/AudioDownArea" unique_id=45549843]
 shape = SubResource("BoxShape_menu_button")
 
-[node name="AudioUpPanel" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+[node name="AudioUpPanel" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu" unique_id=1750430298]
 transform = Transform3D(1, 0, 0, 0, 0.78, 0, 0, 0, 1, 0, -0.82, 0.03)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_menu_panel")
 surface_material_override/0 = SubResource("StandardMaterial3D_menu_panel")
 
-[node name="AudioUpTop" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+[node name="AudioUpTop" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu" unique_id=800408013]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.47, 0.04)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_menu_frame_h")
 surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
 
-[node name="AudioUpBottom" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+[node name="AudioUpBottom" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu" unique_id=2012170929]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.17, 0.04)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_menu_frame_h")
 surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
 
-[node name="AudioUpText3D" type="Label3D" parent="Room/Menu3D/SettingsSubmenu"]
+[node name="AudioUpText3D" type="Label3D" parent="Room/Menu3D/SettingsSubmenu" unique_id=1238774973]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.91, 0.12)
 pixel_size = 0.0075
-shaded = false
 modulate = Color(0.92, 0.9, 0.72, 1)
 outline_modulate = Color(0, 0, 0, 0)
 text = "RAISE AUDIO"
 font_size = 48
 outline_size = 0
 
-[node name="AudioUpArea" type="Area3D" parent="Room/Menu3D/SettingsSubmenu"]
+[node name="AudioUpArea" type="Area3D" parent="Room/Menu3D/SettingsSubmenu" unique_id=1834107917]
 transform = Transform3D(1, 0, 0, 0, 0.78, 0, 0, 0, 1, 0, -0.82, 0.18)
 collision_layer = 0
 collision_mask = 0
 monitoring = false
 monitorable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Menu3D/SettingsSubmenu/AudioUpArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Menu3D/SettingsSubmenu/AudioUpArea" unique_id=791440135]
 shape = SubResource("BoxShape_menu_button")
 
-[node name="AudioSliderLabel" type="Label3D" parent="Room/Menu3D/SettingsSubmenu"]
+[node name="AudioSliderLabel" type="Label3D" parent="Room/Menu3D/SettingsSubmenu" unique_id=1215304128]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36, 0.12)
 pixel_size = 0.0075
-shaded = false
 modulate = Color(0.92, 0.9, 0.72, 1)
 outline_modulate = Color(0, 0, 0, 0)
 text = "LOBBY AUDIO"
 font_size = 44
 outline_size = 0
 
-[node name="AudioSliderTrack" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+[node name="AudioSliderTrack" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu" unique_id=1170049219]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0.05)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_slider_track")
 surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
 
-[node name="AudioSliderFill" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+[node name="AudioSliderFill" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu" unique_id=1764107491]
 transform = Transform3D(0.61, 0, 0, 0, 1, 0, 0, 0, 1, -0.6825, -0.3, 0.08)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_slider_track")
 surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
 
-[node name="AudioSliderKnob" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+[node name="AudioSliderKnob" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu" unique_id=957956264]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.39, -0.3, 0.12)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_slider_knob")
 surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
 
-[node name="AudioSliderArea" type="Area3D" parent="Room/Menu3D/SettingsSubmenu"]
+[node name="AudioSliderArea" type="Area3D" parent="Room/Menu3D/SettingsSubmenu" unique_id=1900293761]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0.2)
 collision_layer = 0
 collision_mask = 0
 monitoring = false
 monitorable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Menu3D/SettingsSubmenu/AudioSliderArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Menu3D/SettingsSubmenu/AudioSliderArea" unique_id=1359746912]
 shape = SubResource("BoxShape_slider_area")
 
-[node name="AudioMutePanel" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+[node name="AudioMutePanel" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu" unique_id=1623930172]
 transform = Transform3D(1, 0, 0, 0, 0.78, 0, 0, 0, 1, 0, -1.58, 0.03)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_menu_panel")
 surface_material_override/0 = SubResource("StandardMaterial3D_menu_panel")
 
-[node name="AudioMuteTop" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+[node name="AudioMuteTop" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu" unique_id=837591788]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.23, 0.04)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_menu_frame_h")
 surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
 
-[node name="AudioMuteBottom" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+[node name="AudioMuteBottom" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu" unique_id=1000174215]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.93, 0.04)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_menu_frame_h")
 surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
 
-[node name="AudioMuteText3D" type="Label3D" parent="Room/Menu3D/SettingsSubmenu"]
+[node name="AudioMuteText3D" type="Label3D" parent="Room/Menu3D/SettingsSubmenu" unique_id=497426444]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.67, 0.12)
 pixel_size = 0.0075
-shaded = false
 modulate = Color(0.92, 0.9, 0.72, 1)
 outline_modulate = Color(0, 0, 0, 0)
 text = "MUTE / UNMUTE"
 font_size = 48
 outline_size = 0
 
-[node name="AudioMuteArea" type="Area3D" parent="Room/Menu3D/SettingsSubmenu"]
+[node name="AudioMuteArea" type="Area3D" parent="Room/Menu3D/SettingsSubmenu" unique_id=2005711022]
 transform = Transform3D(1, 0, 0, 0, 0.78, 0, 0, 0, 1, 0, -1.58, 0.18)
 collision_layer = 0
 collision_mask = 0
 monitoring = false
 monitorable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Menu3D/SettingsSubmenu/AudioMuteArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Menu3D/SettingsSubmenu/AudioMuteArea" unique_id=609248821]
 shape = SubResource("BoxShape_menu_button")
 
-[node name="SettingsBackPanel" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+[node name="SettingsBackPanel" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu" unique_id=19657470]
 transform = Transform3D(1, 0, 0, 0, 0.78, 0, 0, 0, 1, 0, -2.78, 0.03)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_menu_panel")
 surface_material_override/0 = SubResource("StandardMaterial3D_menu_panel")
 
-[node name="SettingsBackTop" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+[node name="SettingsBackTop" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu" unique_id=2024388277]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.43, 0.04)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_menu_frame_h")
 surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
 
-[node name="SettingsBackBottom" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu"]
+[node name="SettingsBackBottom" type="MeshInstance3D" parent="Room/Menu3D/SettingsSubmenu" unique_id=1353272443]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.13, 0.04)
 cast_shadow = 0
 mesh = SubResource("BoxMesh_menu_frame_h")
 surface_material_override/0 = SubResource("StandardMaterial3D_menu_frame")
 
-[node name="SettingsBackText3D" type="Label3D" parent="Room/Menu3D/SettingsSubmenu"]
+[node name="SettingsBackText3D" type="Label3D" parent="Room/Menu3D/SettingsSubmenu" unique_id=1984254534]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.87, 0.12)
 pixel_size = 0.0075
-shaded = false
 modulate = Color(0.92, 0.9, 0.72, 1)
 outline_modulate = Color(0, 0, 0, 0)
 text = "BACK"
 font_size = 48
 outline_size = 0
 
-[node name="SettingsBackArea" type="Area3D" parent="Room/Menu3D/SettingsSubmenu"]
+[node name="SettingsBackArea" type="Area3D" parent="Room/Menu3D/SettingsSubmenu" unique_id=1772429255]
 transform = Transform3D(1, 0, 0, 0, 0.78, 0, 0, 0, 1, 0, -2.78, 0.18)
 collision_layer = 0
 collision_mask = 0
 monitoring = false
 monitorable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Menu3D/SettingsSubmenu/SettingsBackArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Room/Menu3D/SettingsSubmenu/SettingsBackArea" unique_id=847738326]
 shape = SubResource("BoxShape_menu_button")
 
 [node name="Player" type="CharacterBody3D" parent="." unique_id=1364354929]
@@ -1022,25 +1004,25 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.62, 0)
 current = true
 far = 120.0
 
-[node name="FlashlightRig" type="Node3D" parent="Player/CameraPivot/Camera3D"]
+[node name="FlashlightRig" type="Node3D" parent="Player/CameraPivot/Camera3D" unique_id=1566265293]
 visible = false
 
-[node name="FirstPersonArms" parent="Player/CameraPivot/Camera3D/FlashlightRig" instance=ExtResource("11_first_person_arms")]
+[node name="FirstPersonArms" parent="Player/CameraPivot/Camera3D/FlashlightRig" unique_id=919422113 instance=ExtResource("11_first_person_arms")]
 transform = Transform3D(0.012, 0, 0, 0, 0.012, 0, 0, 0, 0.012, 0, -0.52, -0.8)
 
 [node name="FlashlightBody" parent="Player/CameraPivot/Camera3D/FlashlightRig" unique_id=662526801 instance=ExtResource("4_flashlight_model")]
 transform = Transform3D(-9.616835e-09, 0, 0.22, 0, 0.22, 0, -0.22, 0, -9.616835e-09, 0.22, -0.38, -0.64)
 
-[node name="LeftHandGrip" type="MeshInstance3D" parent="Player/CameraPivot/Camera3D/FlashlightRig"]
-visible = false
+[node name="LeftHandGrip" type="MeshInstance3D" parent="Player/CameraPivot/Camera3D/FlashlightRig" unique_id=1855305267]
 transform = Transform3D(0.92, -0.22, 0.32, 0.18, 0.97, 0.08, -0.34, -0.02, 0.94, 0.045, -0.305, -0.61)
+visible = false
 cast_shadow = 0
 mesh = SubResource("CapsuleMesh_fp_hand_grip")
 surface_material_override/0 = SubResource("StandardMaterial3D_fp_hand_grip")
 
-[node name="RightHandGrip" type="MeshInstance3D" parent="Player/CameraPivot/Camera3D/FlashlightRig"]
-visible = false
+[node name="RightHandGrip" type="MeshInstance3D" parent="Player/CameraPivot/Camera3D/FlashlightRig" unique_id=166155753]
 transform = Transform3D(0.9, 0.26, -0.34, -0.22, 0.96, 0.1, 0.37, -0.02, 0.93, 0.275, -0.295, -0.61)
+visible = false
 cast_shadow = 0
 mesh = SubResource("CapsuleMesh_fp_hand_grip")
 surface_material_override/0 = SubResource("StandardMaterial3D_fp_hand_grip")
@@ -1088,7 +1070,7 @@ script = ExtResource("5_vhs")
 [node name="IntroLayer" type="CanvasLayer" parent="." unique_id=1032754968]
 layer = 5
 
-[node name="Blackout" type="ColorRect" parent="IntroLayer"]
+[node name="Blackout" type="ColorRect" parent="IntroLayer" unique_id=558491798]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
