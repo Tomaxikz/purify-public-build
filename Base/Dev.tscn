@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://cn8truc647anq"]
+[gd_scene load_steps=33 format=3 uid="uid://cn8truc647anq"]
 
 [ext_resource type="Script" path="res://scripts/Player/PlayerController.cs" id="1_player"]
 [ext_resource type="Script" path="res://scripts/Environment/SunRig.cs" id="2_sun_rig"]
@@ -16,6 +16,7 @@
 [ext_resource type="AudioStream" path="res://assets/Songs/lobby.mp3" id="14_lobby_music"]
 [ext_resource type="Script" path="res://scripts/Audio/LoopingAudioPlayer.cs" id="15_looping_audio"]
 [ext_resource type="PackedScene" path="res://assets/models/first_person_arms.glb" id="16_first_person_arms"]
+[ext_resource type="Script" path="res://scripts/Items/FirstPersonFlashlightRig.cs" id="17_fp_flashlight_rig"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_baseplate"]
 albedo_color = Color(0.31, 0.335, 0.315, 1)
@@ -210,6 +211,7 @@ near = 0.05
 far = 120.0
 
 [node name="FlashlightRig" type="Node3D" parent="Player/CameraPivot/Camera3D"]
+script = ExtResource("17_fp_flashlight_rig")
 
 [node name="FirstPersonArms" parent="Player/CameraPivot/Camera3D/FlashlightRig" instance=ExtResource("16_first_person_arms")]
 position = Vector3(0, -0.52, -0.8)

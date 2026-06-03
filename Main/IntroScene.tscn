@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://c0lw3bjq3hgx5" path="res://scripts/Intro/IntroPillarField.cs" id="9_pillar_field"]
 [ext_resource type="AudioStream" uid="uid://b6meod2fv7g7h" path="res://assets/Songs/real.lobby.mp3" id="10_real_lobby_audio"]
 [ext_resource type="PackedScene" uid="uid://bt5erueeyig6x" path="res://assets/models/first_person_arms.glb" id="11_first_person_arms"]
+[ext_resource type="Script" path="res://scripts/Items/FirstPersonFlashlightRig.cs" id="12_fp_flashlight_rig"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_intro"]
 sky_top_color = Color(0, 0, 0, 1)
@@ -1006,6 +1007,7 @@ far = 120.0
 
 [node name="FlashlightRig" type="Node3D" parent="Player/CameraPivot/Camera3D" unique_id=1566265293]
 visible = false
+script = ExtResource("12_fp_flashlight_rig")
 
 [node name="FirstPersonArms" parent="Player/CameraPivot/Camera3D/FlashlightRig" unique_id=919422113 instance=ExtResource("11_first_person_arms")]
 transform = Transform3D(0.012, 0, 0, 0, 0.012, 0, 0, 0, 0.012, 0, -0.52, -0.8)
